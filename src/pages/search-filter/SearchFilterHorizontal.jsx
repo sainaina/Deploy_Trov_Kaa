@@ -90,7 +90,7 @@ export const SearchFilterHorizontal = () => {
   }
 
   return (
-    <div className="w-full overflow-hidden mt-12 px-4 md:px-8 lg:px-24">
+    <div className="w-full overflow-hidden px-4 md:px-8 lg:px-24">
       <SlideService />
       <div className="flex flex-col md:flex-row items-start md:items-center md:justify-between mt-6">
         <div className="w-full md:w-1/2 h-[90px] flex flex-col md:flex-row items-start md:items-center">
