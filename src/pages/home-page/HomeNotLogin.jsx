@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
+import SlideImageComponent from "../../components/cart/home-page-components/SlideImageComponent";
 import CategoryLocation from "../../components/cart/home-page-components/CategoryLocation";
 import HeroSection from "../../components/cart/home-page-components/HeroSection";
 import HomeProfile from "../../components/cart/home-page-components/HomeProfile";
@@ -14,7 +16,6 @@ import { fetchServices } from "../../redux/feature/service/serviceSlice";
 import { fetchServiceReviews } from "../../redux/feature/review/reviewSlice";
 import { Metadata } from '../../lib/Metadata';
 import DropdownCategory from "../../components/button/DropdownCategory";
-import SlideImageComponent from "../../components/cart/home-page-components/SlideImageComponent";
 
 export function HomeNotLogin() {
   const dispatch = useDispatch();
@@ -31,7 +32,6 @@ export function HomeNotLogin() {
   const indexOfLastService = currentPage * servicesPerPage;
   const indexOfFirstService = indexOfLastService - servicesPerPage;
   const currentServices = services.slice(indexOfFirstService, indexOfLastService);
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -84,7 +84,6 @@ export function HomeNotLogin() {
     };
   }, []);
 
-
   return (
     <div>
       <div>
@@ -98,42 +97,42 @@ export function HomeNotLogin() {
       </div>
 
       <div className="flex flex-col lg:flex-row xl:px-0 xl:mx-auto xl:max-w-[1296px]">
-        <div className="flex px-4 mt-[150px] sm:px-6 md:px-8 lg:px-16 xl:px-24 mt-[100px]">
-          <div className="w-full max-w-[600px] h-[90px] text-lg mx-auto">
+        <div className="flex flex-col items-center px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 mt-24 lg:mt-[150px]">
+          <div className="w-full max-w-[600px] text-lg">
             <HeroSection />
             <CategoryLocation />
           </div>
         </div>
-        <div className="hidden lg:block mt-[100px]">
+        <div className="hidden lg:block mt-[83px]">
           <HomeProfile />
         </div>
       </div>
 
-
-      <div className="mt-[190px] mb-[60px] text-center text-[#022278] dark:text-Secondary font-bold">
-        <p className="text-2xl ">{t("Welcome_Services")}</p>
+      <div className="mt-[205px] mb-14 text-center text-[#022278] dark:text-Secondary font-bold">
+        <p className="text-2xl">{t("Welcome_Services")}</p>
       </div>
-      <DropdownCategory />
-      <SlideImageComponent/>
 
-      <div className="flex px-24 justify-center mt-[80px] text-[#022278] dark:text-Secondary text-xl font-semibold">
-        <div className="w-full max-w-[1286px] px-4 max-[490px]:-ml-20 max-[490px]:-mb-[80px] max-[405px]:-ml-[110px] max-[360px]:-ml-[140px] max-[320px]:-ml-[190px]">
+      <DropdownCategory />
+      <SlideImageComponent />
+
+      <div className="flex px-6 lg:px-24 justify-center mt-20 text-[#022278] dark:text-Secondary text-xl font-semibold">
+        <div className="w-full max-w-[1286px]">
           <p>{t("All_Category")}</p>
-          <div className="mt-[5px] border border-[#022278] dark:border-Secondary mb-[80px] max-[490px]:w-[280px] max-[490px]:mx-auto w-[full]"></div>
+          <div className="mt-1 border border-[#022278] dark:border-Secondary mb-20"></div>
         </div>
       </div>
 
       <ServiceCard />
 
-      <div className="flex px-24 justify-center mt-[80px] text-[#022278] dark:text-Secondary text-xl font-semibold">
-        <div className="w-full max-w-[1286px] px-4 max-[490px]:-ml-20 max-[490px]:-mb-[80px]  max-[405px]:-ml-[110px] max-[330px]:-mb-[50px] max-[360px]:-ml-[140px] max-[320px]:-ml-[190px]">
+      <div className="flex px-6 lg:px-24 justify-center mt-20 text-[#022278] dark:text-Secondary text-xl font-semibold">
+        <div className="w-full max-w-[1286px]">
           <p>{t("All_Service")}</p>
-          <div className="mt-[5px] border border-[#022278] dark:border-Secondary mb-[80px] max-[490px]:w-[280px] max-[490px]:mx-auto w-[full]"></div>
+          <div className="mt-1 border border-[#022278] dark:border-Secondary mb-20"></div>
         </div>
       </div>
 
-      <div className="flex justify-center gap-[50px]">
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12'>
+      <div className="flex justify-center gap-12 flex-wrap">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {currentServices.map((service) => (
             <CartService
               key={service.id}
@@ -150,16 +149,15 @@ export function HomeNotLogin() {
         </div>
       </div>
 
-      <div className="flex px-24 justify-center mt-[80px] text-[#022278] dark:text-Secondary text-xl font-semibold">
-        <div className="w-full max-w-[1286px] px-4 max-[490px]:-ml-20 max-[490px]:-mb-[80px]  max-[405px]:-ml-[110px] max-[330px]:-mb-[50px] max-[360px]:-ml-[140px] max-[320px]:-ml-[190px]">
+      <div className="flex px-6 lg:px-24 justify-center mt-20 text-[#022278] dark:text-Secondary text-xl font-semibold">
+        <div className="w-full max-w-[1286px]">
           <p>{t("Popular_Service")}</p>
-          <div className="mt-[5px] border border-[#022278] dark:border-Secondary mb-[80px] max-[490px]:w-[280px] max-[490px]:mx-auto w-[full]"></div>
+          <div className="mt-1 border border-[#022278] dark:border-Secondary mb-20"></div>
         </div>
       </div>
 
-
-      <div className="flex justify-center gap-[40px] flex-wrap">
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12'>
+      <div className="flex justify-center gap-12 flex-wrap">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {popularServices.map((service) => (
             <CartService
               key={service.id}
@@ -174,7 +172,6 @@ export function HomeNotLogin() {
             />
           ))}
         </div>
-
       </div>
       <StatisticsSection />
       <SuggesdedCustomer />

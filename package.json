@@ -12,6 +12,7 @@
   "dependencies": {
     "@coreui/coreui": "^5.1.0",
     "@coreui/react": "^5.2.0",
+    "@emailjs/browser": "^4.4.1",
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
     "@headlessui/react": "^2.1.2",

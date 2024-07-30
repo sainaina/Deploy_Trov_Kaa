@@ -3,11 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, selectUser, selectUserRole } from "../../redux/feature/user/userSlice"; // Import the selectors and logout action
 import ConfirmLogoutModal from "./ConfirmLogoutModal"; // Import your ConfirmLogoutModal component
+import { useTranslation } from "react-i18next";
 
 export default function ProfileDropdown({ onLogout }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showModal, setShowModal] = useState(false); // State to control the modal visibility
-
+  const { t } = useTranslation();
   const trigger = useRef(null);
   const dropdown = useRef(null);
   const navigate = useNavigate();
@@ -57,6 +58,7 @@ export default function ProfileDropdown({ onLogout }) {
     navigate("/"); // Redirect to login page
     setDropdownOpen(false);
     setShowModal(false);
+    
   };
 
   const handleCloseModal = () => {
@@ -72,20 +74,20 @@ export default function ProfileDropdown({ onLogout }) {
               className="block w-full rounded px-3 py-2 text-left text-sm text-body-color hover:bg-gray-2 dark:text-dark-6 dark:hover:bg-dark-3 hover:bg-Primary hover:text-white"
               onClick={() => handleButtonClick('/admin-dashboard')}
             >
-              Admin Dashboard
+              {t('Dashboard')}
             </button>
             <button
               className="block w-full rounded px-3 py-2 text-left text-sm text-body-color hover:bg-gray-2 dark:text-dark-6 dark:hover:bg-dark-3 hover:bg-Primary hover:text-white"
               onClick={() => handleButtonClick('/admin-settings')}
             >
-              Admin Settings
+              {t('Profile_Setting')}
             </button>
             {/* Add more admin-specific links here */}
             <button
               className="block w-full rounded px-3 py-2 text-left text-sm text-body-color hover:bg-gray-2 dark:text-dark-6 dark:hover:bg-dark-3 hover:bg-Primary hover:text-white"
               onClick={handleLogout}
             >
-              Logout
+              {t('Logout')}
             </button>
           </>
         );
@@ -96,31 +98,31 @@ export default function ProfileDropdown({ onLogout }) {
               className="block w-full rounded px-3 py-2 text-left text-sm text-body-color hover:bg-gray-2 dark:text-dark-6 dark:hover:bg-dark-3 hover:bg-Primary hover:text-white"
               onClick={() => handleButtonClick('/dashboard-provider')}
             >
-              Provider Dashboard
+              {t('Dashboard')}
             </button>
             <button
               className="block w-full rounded px-3 py-2 text-left text-sm text-body-color hover:bg-gray-2 dark:text-dark-6 dark:hover:bg-dark-3 hover:bg-Primary hover:text-white"
               onClick={() => handleButtonClick('/provider-setting')}
             >
-              Provider Settings
+              {t('Profile_Setting')}
             </button>
             <button
               className="block w-full rounded px-3 py-2 text-left text-sm text-body-color hover:bg-gray-2 dark:text-dark-6 dark:hover:bg-dark-3 hover:bg-Primary hover:text-white"
               onClick={() => handleButtonClick('/provider-review')}
             >
-              Provider Reviews
+              {t('Reviews')}
             </button>
             <button
               className="block w-full rounded px-3 py-2 text-left text-sm text-body-color hover:bg-gray-2 dark:text-dark-6 dark:hover:bg-dark-3 hover:bg-Primary hover:text-white"
               onClick={() => handleButtonClick('/provider-password')}
             >
-              Change Password
+              {t('Change_Pw')}
             </button>
             <button
               className="block w-full rounded px-3 py-2 text-left text-sm text-body-color hover:bg-gray-2 dark:text-dark-6 dark:hover:bg-dark-3 hover:bg-Primary hover:text-white"
               onClick={handleLogout}
             >
-              Logout
+              {t('Logout')}
             </button>
           </>
         );
@@ -132,26 +134,26 @@ export default function ProfileDropdown({ onLogout }) {
               className="block w-full rounded px-3 py-2 text-left text-sm text-body-color hover:bg-gray-2 dark:text-dark-6 dark:hover:bg-dark-3 hover:bg-Primary hover:text-white"
               onClick={() => handleButtonClick('/dashboard-user')}
             >
-              User Dashboard
+              {t('Dashboard')}
             </button>
             <button
               className="block w-full rounded px-3 py-2 text-left text-sm text-body-color hover:bg-gray-2 dark:text-dark-6 dark:hover:bg-dark-3 hover:bg-Primary hover:text-white"
               onClick={() => handleButtonClick('/user-setting')}
             >
-              User Settings
+              {t('Profile_Setting')}
             </button>
             <button
               className="block w-full rounded px-3 py-2 text-left text-sm text-body-color hover:bg-gray-2 dark:text-dark-6 dark:hover:bg-dark-3 hover:bg-Primary hover:text-white"
               onClick={() => handleButtonClick('/user-favorite')}
             >
-              User Favorite 
+              {t('Favorite')}
             </button>
             {/* Add more user-specific links here */}
             <button
               className="block w-full rounded px-3 py-2 text-left text-sm text-body-color hover:bg-gray-2 dark:text-dark-6 dark:hover:bg-dark-3 hover:bg-Primary hover:text-white"
               onClick={handleLogout}
             >
-              Logout
+              {t('Logout')}
             </button>
           </>
         );
@@ -160,16 +162,16 @@ export default function ProfileDropdown({ onLogout }) {
 
   return (
     <>
-      <section className="bg-gray-2 py-20 dark:bg-dark">
-        <div className="container">
-          <div className="flex justify-center">
-            <div className="relative inline-block">
+      <section className="bg-gray-2 py-20 ">
+        <div className="container ">
+          <div className="flex justify-center ">
+            <div className="relative inline-block ">
               <button
                 ref={trigger}
                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center text-left"
+                className="flex items-center text-left "
               >
-                <div className="relative mr-4 h-[42px] w-[42px] rounded-full">
+                <div className="relative mr-4 my-[12px] h-[42px] w-[42px] rounded-full ">
                   <img
                     src={user?.avatar || "https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"}
                     alt="avatar"
@@ -180,7 +182,7 @@ export default function ProfileDropdown({ onLogout }) {
               </button>
               <div
                 ref={dropdown}
-                className={`absolute right-0 top-full z-50 w-[200px] space-y-1 rounded bg-white p-2 shadow-card border dark:bg-dark-2 dark:shadow-box-dark ${dropdownOpen ? "block" : "hidden"}`}
+                className={`absolute right-0 top-full z-50 w-[200px] space-y-1 rounded-lg bg-white p-2 shadow-card dark:bg-slate-700 dark:shadow-box-dark ${dropdownOpen ? "block" : "hidden"}`}
               >
                 <div className="px-3 py-2">
                   <p className="text-base font-medium text-dark dark:text-white">

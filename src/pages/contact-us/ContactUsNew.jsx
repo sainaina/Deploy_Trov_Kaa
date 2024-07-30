@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { ImLocation } from "react-icons/im";
 import {
@@ -10,9 +10,12 @@ import {
 } from "react-icons/fa";
 import { IoIosMail } from "react-icons/io";
 import { Metadata } from "../../lib/Metadata";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css"; // Ensure CSS is imported
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import { useTranslation } from "react-i18next";
+import emailjs from "@emailjs/browser";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const ContactUsNew = () => {
   const [loading, setLoading] = useState(true);
@@ -20,7 +23,7 @@ export const ContactUsNew = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 700); // Simulate loading for 0.7 seconds
+    }, 1000); // Simulate loading for 0.7 seconds
     return () => clearTimeout(timer);
   }, []);
 
@@ -33,6 +36,27 @@ export const ContactUsNew = () => {
   const slideDown = {
     hidden: { opacity: 0, y: -20 },
     visible: { opacity: 1, y: 0 },
+  };
+
+  const form = useRef();
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    emailjs
+      .sendForm("service_zdnds9j", "template_f9pgq4i", form.current, {
+        publicKey: "V0_CnYCHSqlwOQS1G",
+      })
+      .then(
+        () => {
+          toast.success("Message sent successfully!");
+          form.current.reset(); // Reset the form
+        },
+        (error) => {
+          toast.error("Failed to send message. Please try again.");
+          console.log("FAILED...", error.text);
+        }
+      );
   };
 
   return (
@@ -50,11 +74,79 @@ export const ContactUsNew = () => {
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: 50 }}
-        transition={{ duration: 0.8, ease: "easeInOut" }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
       >
-        <motion.div className="w-full max-w-5xl h-auto flex flex-col lg:flex-row justify-center items-center rounded-lg p-8">
+        <motion.div className="w-full max-w-5xl h-auto flex flex-col lg:flex-row justify-center items-center rounded-lg p-4">
           {loading ? (
-            <div className="flex flex-col lg:flex-row w-full gap-8"></div>
+            <SkeletonTheme baseColor="#E0E0E0" highlightColor="#F0F0F0">
+              <div className="flex flex-col lg:flex-row w-full gap-8">
+                <div className="w-full lg:w-[525px]">
+                  <Skeleton
+                    height={45}
+                    className="mb-8"
+                    style={{ borderRadius: '20px' }}
+                  />
+                  <Skeleton
+                    count={4}
+                    height={20}
+                    className="mb-8"
+                    style={{ borderRadius: '20px' }}
+                  />
+                  <Skeleton
+                    height={60}
+                    width={60}
+                    className="mb-8"
+                    style={{ borderRadius: '30px' }}
+                  />
+                  <Skeleton
+                    height={60}
+                    width={60}
+                    className="mb-8"
+                    style={{ borderRadius: '30px' }}
+                  />
+                  <Skeleton
+                    height={60}
+                    width={60}
+                    className="mb-8"
+                    style={{ borderRadius: '30px' }}
+                  />
+                  <Skeleton
+                    height={45}
+                    className="mb-8"
+                    style={{ borderRadius: '20px' }}
+                  />
+                  <Skeleton
+                    height={20}
+                    className="mb-8"
+                    style={{ borderRadius: '20px' }}
+                  />
+                  <Skeleton
+                    height={50}
+                    width={50}
+                    className="mb-8"
+                    style={{ borderRadius: '25px' }}
+                  />
+                  <Skeleton
+                    height={50}
+                    width={50}
+                    className="mb-8"
+                    style={{ borderRadius: '25px' }}
+                  />
+                  <Skeleton
+                    height={50}
+                    width={50}
+                    className="mb-8"
+                    style={{ borderRadius: '25px' }}
+                  />
+                </div>
+                <Skeleton
+                  height={400}
+                  width={700}
+                  className="rounded-[20px]"
+                  style={{ borderRadius: '20px' }}
+                />
+              </div>
+            </SkeletonTheme>
           ) : (
             <>
               <motion.div
@@ -167,15 +259,16 @@ export const ContactUsNew = () => {
                   </div>
                 </div>
               </motion.div>
-
-              <dotlottie-player
-                src="https://lottie.host/bcb00bc0-60db-4db2-b969-2c843145d5ca/1jfVrWOQ3z.json"
-                background="transparent"
-                speed="1"
-                loop
-                autoplay
-                className="w-full lg:w-[525px] h-auto"
-              ></dotlottie-player>
+              <div className="w-full lg:w-[700px] h-auto">
+                <dotlottie-player
+                  src="https://lottie.host/bcb00bc0-60db-4db2-b969-2c843145d5ca/1jfVrWOQ3z.json"
+                  background="transparent"
+                  speed="1"
+                  loop
+                  autoplay
+                  className="w-full lg:w-[700px] h-auto"
+                ></dotlottie-player>
+              </div>
             </>
           )}
         </motion.div>
@@ -191,16 +284,26 @@ export const ContactUsNew = () => {
         </div>
 
         <div className="w-full lg:w-3/5 mx-auto mb-[100px] p-8">
-          <form action="" className="w-full">
+          <form action="" className="w-full" ref={form} onSubmit={sendEmail}>
             <label className="text-md font-normal" htmlFor="name">
               {t("Name")}
             </label>
             <br />
+
+            <input hidden
+              type="text"
+              id="name"
+              name="to_name"
+              value="TrovKa"
+              placeholder={t("Your_Name")}
+              className="w-full border border-gray-300 rounded-lg p-2 dark:bg-gray-800"
+            />
+
             <div className="w-full flex flex-col lg:flex-row gap-4 mb-5">
               <input
                 type="text"
                 id="name"
-                name="name"
+                name="user_name"
                 placeholder={t("Your_Name")}
                 className="w-full border border-gray-300 rounded-lg p-2 dark:bg-gray-800"
               />
@@ -212,7 +315,7 @@ export const ContactUsNew = () => {
             <input
               type="email"
               id="email"
-              name="email"
+              name="user_email"
               placeholder={t("Your_Email")}
               className="w-full border border-gray-300 rounded-lg p-2 mb-5 dark:bg-gray-800"
             />
@@ -236,6 +339,7 @@ export const ContactUsNew = () => {
           </form>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

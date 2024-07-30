@@ -35,7 +35,7 @@ const CategoryLocation = () => {
 
   return (
     <SkeletonTheme color="#e0e0e0" highlightColor="#f5f5f5">
-      <div className="max-w-md my-[25px] ml-[16px]">
+      <div className="max-w-md my-[33px] ml-[16px]">
         {loading ? (
           <div className="relative">
             <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">

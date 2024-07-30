@@ -3,10 +3,11 @@ import { CiLogin, CiLight, CiDark } from "react-icons/ci";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import i18n from "../../i18n";
-import { FaRegMoon, FaRegSun } from "react-icons/fa";
+import { FaBars, FaTimes } from "react-icons/fa";
 
 export function NavbarNotLoginComponent() {
   const [darkMode, setDarkMode] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -16,6 +17,10 @@ export function NavbarNotLoginComponent() {
 
   const toggleDarkMode = () => {
     setDarkMode((prev) => !prev);
+  };
+
+  const toggleMenu = () => {
+    setIsOpen((prev) => !prev);
   };
 
   useEffect(() => {
@@ -39,7 +44,7 @@ export function NavbarNotLoginComponent() {
 
   return (
     <>
-      <div className="fixed top-0 left-0 w-full h-[50px] flex justify-center items-center bg-Primary text-white z-40">
+      <div className="fixed top-0 left-0 w-full h-[40px] flex justify-center items-center bg-Primary text-white z-40">
         <p className="text-center text-[15px] flex items-center justify-center space-x-2">
           <a href="#">
             <img
@@ -56,29 +61,41 @@ export function NavbarNotLoginComponent() {
           </span>
         </p>
       </div>
-      <nav className="navbar mt-[17px] fixed top-8 left-0 w-full bg-white dark:bg-gray-900 dark:text-white z-50">
+      <nav className="navbar fixed top-[40px] px-[60px] left-0 w-full bg-white dark:bg-gray-900 dark:text-white z-50">
         <div className="container mx-auto flex items-center justify-between h-[70px] p-4 md:p-0">
-          <img
-            className="w-40 ml-14 hover:cursor-pointer"
-            src="./public/image/logo/logo.png"
-            alt="Logo"
-            onClick={() => navigate("/")}
-          />
-          <ul className="hidden lg-1080:flex justify-center space-x-10 m-auto">
-            {menuList.map((menu, index) => (
-              <li key={index}>
+          <div className="flex items-center">
+            <button
+              className="lg:hidden text-2xl focus:outline-none -ml-[50px] mr-[5px]"
+              onClick={toggleMenu}
+            >
+              {isOpen ? <FaTimes /> : <FaBars />}
+            </button>
+            <img
+              className="w-40 hover:cursor-pointer"
+              src="/image/logo/logo.png"
+              alt="Logo"
+              onClick={() => navigate("/")}
+            />
+          </div>
+          <div className="hidden lg:flex items-center flex-grow">
+            <div className="flex-grow flex items-center justify-center space-x-10">
+              {menuList.map((menu, index) => (
                 <NavLink
+                  key={index}
                   to={menu.path}
-                  className="text-textColor hover:text-primary transition-colors duration-300 text-[18px] dark:text-gray-300"
-                  activeClassName="text-primary"
+                  className={({ isActive }) =>
+                    `block px-2 py-2 transition-colors duration-300 text-[18px] dark:text-gray-300 ${
+                      isActive
+                        ? "text-secondary font-semibold border-b-2 border-Secondary"
+                        : "text-Primary hover:text-Secondary"
+                    }`
+                  }
                 >
                   {menu.title}
                 </NavLink>
-              </li>
-            ))}
-          </ul>
-          <div className="flex items-center ml-auto mr-14 space-x-4 justify-evenly">
-            <div className="flex items-center">
+              ))}
+            </div>
+            <div className="flex items-center space-x-4">
               <button
                 onClick={() => changeLanguage("kh")}
                 className="text-textColor hover:text-primary transition-colors duration-300 dark:text-gray-300"
@@ -87,19 +104,19 @@ export function NavbarNotLoginComponent() {
               </button>
               <button
                 onClick={() => changeLanguage("en")}
-                className="text-textColor hover:text-primary ml-[10px] transition-colors duration-300 dark:text-gray-300"
+                className="text-textColor hover:text-primary transition-colors duration-300 dark:text-gray-300"
               >
                 EN
               </button>
               <button
                 onClick={toggleDarkMode}
-                className="ml-4 text-textColor hover:text-primary transition-colors duration-300 dark:text-gray-300"
+                className="text-textColor hover:text-primary transition-colors duration-300 dark:text-gray-300"
               >
                 {darkMode ? (
                   <CiLight
                     className="text-[22px]"
                     style={{ color: "#FFFFFF", opacity: 0.9 }}
-                  /> 
+                  />
                 ) : (
                   <CiDark
                     className="text-[22px]"
@@ -107,28 +124,98 @@ export function NavbarNotLoginComponent() {
                   />
                 )}
               </button>
+              <button
+                onClick={() => navigate("/login")}
+                className="w-[120px] h-9 bg-[#FFB600] rounded-xl flex justify-center items-center text-white text-[18px]"
+              >
+                <CiLogin className="mr-2 text-[20px]" />
+                {t("Sign In")}
+              </button>
+              <button
+                onClick={() => navigate("/register")}
+                className="w-[120px] h-9 border-secondary border rounded-xl flex justify-center items-center text-textColor text-[18px]"
+              >
+                {t("Sign Up")}
+              </button>
             </div>
-
+          </div>
+        </div>
+      </nav>
+      <div
+        className={`${
+          isOpen ? "block" : "hidden"
+        } lg:hidden fixed top-[100px] left-0 w-full h-full bg-white dark:bg-gray-900 dark:text-white z-50`}
+      >
+        <div className="flex items-center justify-end px-4 py-2 border-b border-gray-300 dark:border-gray-700">
+          <div className="flex items-center space-x-4">
+            <button
+              onClick={() => changeLanguage("kh")}
+              className="text-textColor hover:text-primary transition-colors duration-300 dark:text-gray-300"
+            >
+              KH
+            </button>
+            <button
+              onClick={() => changeLanguage("en")}
+              className="text-textColor hover:text-primary transition-colors duration-300 dark:text-gray-300"
+            >
+              EN
+            </button>
+            <button
+              onClick={toggleDarkMode}
+              className="text-textColor hover:text-primary transition-colors duration-300 dark:text-gray-300"
+            >
+              {darkMode ? (
+                <CiLight
+                  className="text-[22px]"
+                  style={{ color: "#FFFFFF", opacity: 0.9 }}
+                />
+              ) : (
+                <CiDark
+                  className="text-[22px]"
+                  style={{ color: "#000000", opacity: 0.9 }}
+                />
+              )}
+            </button>
+          </div>
+        </div>
+        <ul className="flex flex-col items-center space-y-2 py-2 ">
+          {menuList.map((menu, index) => (
+            <li key={index}>
+              <NavLink
+                to={menu.path}
+                className={({ isActive }) =>
+                  `block px-4 py-2 text-textColor transition-colors duration-300 text-[18px] dark:text-gray-300 ${
+                    isActive
+                      ? "text-primary font-semibold border-b-2 border-Secondary"
+                      : "hover:text-primary"
+                  }`
+                }
+                onClick={() => setIsOpen(false)}
+              >
+                {menu.title}
+              </NavLink>
+            </li>
+          ))}
+          <li>
             <button
               onClick={() => navigate("/login")}
-              className="w-[120px] h-9 bg-[#FFB600] rounded-xl flex justify-center items-center text-white text-[18px]"
+              className="w-[120px] h-9 bg-[#FFB600] rounded-xl my-[15px] flex justify-center items-center text-white text-[18px]"
             >
               <CiLogin className="mr-2 text-[20px]" />
               {t("Sign In")}
             </button>
-
+          </li>
+          <li>
             <button
               onClick={() => navigate("/register")}
               className="w-[120px] h-9 border-secondary border rounded-xl flex justify-center items-center text-textColor text-[18px]"
             >
               {t("Sign Up")}
             </button>
-          </div>
-        </div>
-      </nav>
-
-      <div className="pt-[135px]">
+          </li>
+        </ul>
       </div>
+      <div className="pt-[135px]"></div>
     </>
   );
 }
